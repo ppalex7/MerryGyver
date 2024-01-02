@@ -1,3 +1,4 @@
+#include "device.h"
 #include "TinyMAX7219.h"
 TinyMAX7219<3, 0, 2> disp;  // CS, MOSI, SCK
 
