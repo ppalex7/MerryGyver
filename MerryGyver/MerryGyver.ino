@@ -2,6 +2,7 @@
 #include "TinyMAX7219.h"
 
 static uint16_t seed = SN;
+static uint16_t seed2 = SN + 2023;
 
 TinyMAX7219<3, 0, 2> disp;  // CS, MOSI, SCK
 
@@ -77,8 +78,12 @@ void loop() {
   offs++;
   if (++mcount > 80) {
     offs = mcount = 0;
-    mode = (mode + 1) & 0x7;
-    // mode = rnd();
+    if (SN == 1
+    ) {
+      mode = rnd2();
+    } else {
+      mode = (mode + 1) & 0x7;
+    }
     disp.clear();
   }
   delay(180);
@@ -132,6 +137,11 @@ void snow() {
 byte rnd() {
   seed = (seed * 2053ul) + 13849;
   return (seed >> 8) & 7;
+}
+
+byte rnd2() {
+  seed2 = (seed2 * 1739ul) + 11943;
+  return (seed2 >> 8) & 7;
 }
 
 void checkLeds() {
