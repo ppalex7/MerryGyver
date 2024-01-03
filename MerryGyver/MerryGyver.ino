@@ -52,6 +52,8 @@ void setup() {
   disp.send(0, SN);
   delay(600);
   disp.clear();
+#else
+  disp.setBright(2);
 #endif
 }
 
@@ -69,6 +71,9 @@ void modes() {
 }
 
 void loop() {
+#ifdef debug
+  return checkLeds();
+#endif
   modes();
   offs++;
   if (++mcount > 80) {
@@ -128,4 +133,11 @@ void snow() {
 byte rnd() {
   seed = (seed * 2053ul) + 13849;
   return (seed >> 8) & 7;
+}
+
+void checkLeds() {
+  for (uint8_t i = 0; i < 8; i++) {
+    disp.send(i, 0xFF);
+  }
+  delay(180);
 }
