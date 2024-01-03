@@ -51,7 +51,7 @@ void setup() {
 #ifndef debug
   disp.setBright(6);
   disp.send(0, SN);
-  delay(600);
+  __builtin_avr_delay_cycles(2880000);
   disp.clear();
 #else
   disp.setBright(2);
@@ -86,7 +86,7 @@ void loop() {
     }
     disp.clear();
   }
-  delay(180);
+  __builtin_avr_delay_cycles(864000);
 }
 
 void blinkBitmap(const uint8_t* bmap) {
@@ -148,5 +148,5 @@ void checkLeds() {
   for (uint8_t i = 0; i < 8; i++) {
     disp.send(i, 0xFF);
   }
-  delay(180);
+  __builtin_avr_delay_cycles(864000);
 }
