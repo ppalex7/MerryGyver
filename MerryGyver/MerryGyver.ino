@@ -74,7 +74,11 @@ void loop() {
 #ifdef debug
   return checkLeds();
 #endif
-  modes();
+  if (SN == 2) {
+    modes2();
+  } else {
+    modes();
+  }
   offs++;
   if (++mcount > 80) {
     offs = mcount = 0;
