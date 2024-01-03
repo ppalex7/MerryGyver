@@ -55,7 +55,7 @@ void setup() {
 #endif
 }
 
-void loop() {
+void modes() {
   switch (mode) {
     case 0: snow(); break;
     case 1: scrollBitmap(bitmap_59x5, 8, 5, 2); break;
@@ -66,6 +66,10 @@ void loop() {
     case 6: switchBitmap(pacm1, pacm2); break;
     case 7: switchBitmap(heart1, heart2); break;
   }
+}
+
+void loop() {
+  modes();
   offs++;
   if (++mcount > 80) {
     offs = mcount = 0;
