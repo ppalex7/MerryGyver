@@ -53,3 +53,15 @@ void modes3() {
     case 7: scrollBitmap(bitmap_42x8, 6, 8, 0); break;
   }
 }
+
+void modes4() {
+  switch (mode) {
+    case 0: return scrollBitmap(epd_bitmap_04b3, 8, 5, 2);
+    case 1: return switchBitmap(heart1, heart2);
+    case 3: return scrollBitmap(bitmap_59x5, 8, 5, 2);
+    case 4: return scrollBitmap(bitmap_42x8, 6, 8, 0);
+    case 5: return blinkBitmap(heart2);
+    case 7: return switchBitmap(pacm1, pacm2);
+    default: return snow();
+  }
+}
