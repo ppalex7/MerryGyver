@@ -59,14 +59,13 @@ void setup() {
 
 void modes() {
   switch (mode) {
-    case 0: snow(); break;
     case 1: scrollBitmap(bitmap_59x5, 8, 5, 2); break;
-    case 2: scrollBitmap(bitmap_46x5, 6, 5, 2); break;
     case 3: scrollBitmap(bitmap_42x8, 6, 8, 0); break;
     case 4: blinkBitmap(star); break;
     case 5: blinkBitmap(heart2); break;
     case 6: switchBitmap(pacm1, pacm2); break;
     case 7: switchBitmap(heart1, heart2); break;
+    default: return snow();
   }
 }
 
