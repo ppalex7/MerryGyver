@@ -1,6 +1,16 @@
+#include "device.h"
 #include "TinyMAX7219.h"
+
+static uint16_t seed = SN;
+static uint16_t seed2 = SN + 2023;
+static const uint8_t MAX_OFF = SN <= 2
+  ? 80
+  : 131
+;
+
 TinyMAX7219<3, 0, 2> disp;  // CS, MOSI, SCK
 
+// с новым годом
 const uint8_t bitmap_59x5[] PROGMEM = {
   0xE4, 0xBD, 0xC8, 0xA2, 0x77, 0x8D, 0xE8, 0xA0,
   0x84, 0xA5, 0x48, 0xB6, 0x44, 0x95, 0x2D, 0xA0,
@@ -9,6 +19,7 @@ const uint8_t bitmap_59x5[] PROGMEM = {
   0xE4, 0xBD, 0xEE, 0xA2, 0x47, 0xA5, 0xE8, 0xA0,
 };
 
+// 2021 — уходи
 const uint8_t bitmap_46x5[] PROGMEM = {
   0xEF, 0x72, 0x25, 0x17, 0x8D, 0x14, 
   0x29, 0x12, 0x24, 0xA4, 0x95, 0x34, 
@@ -17,6 +28,7 @@ const uint8_t bitmap_46x5[] PROGMEM = {
   0xEF, 0x72, 0x3D, 0x17, 0xA5, 0x14, 
 };
 
+// елка, олень, снеговик, ...
 const uint8_t bitmap_42x8[] PROGMEM = {
   0x18, 0x00, 0x00, 0x00, 0x05, 0x00, 
   0x18, 0x0E, 0x0E, 0x00, 0x02, 0x00, 
@@ -40,27 +52,57 @@ byte mcount = 0;
 
 void setup() {
   disp.begin();
+#ifndef debug
   disp.setBright(6);
+  disp.send(0, SN);
+  __builtin_avr_delay_cycles(2880000);
+  disp.clear();
+#else
+  disp.setBright(2);
+#endif
 }
 
-void loop() {
+void modes() {
   switch (mode) {
-    case 0: snow(); break;
     case 1: scrollBitmap(bitmap_59x5, 8, 5, 2); break;
-    case 2: scrollBitmap(bitmap_46x5, 6, 5, 2); break;
     case 3: scrollBitmap(bitmap_42x8, 6, 8, 0); break;
     case 4: blinkBitmap(star); break;
     case 5: blinkBitmap(heart2); break;
     case 6: switchBitmap(pacm1, pacm2); break;
     case 7: switchBitmap(heart1, heart2); break;
+    default: return snow();
+  }
+}
+
+void loop() {
+#ifdef debug
+  return checkLeds();
+#endif
+  if (SN == 2) {
+    modes2();
+  } else if (SN == 3) {
+    modes3();
+  } else if (SN == 4) {
+    modes4();
+  } else if (SN == 5) {
+    modes5();
+  } else {
+    modes();
   }
   offs++;
-  if (++mcount > 80) {
+  if (++mcount > MAX_OFF) {
     offs = mcount = 0;
-    mode++;// = rnd();
+    if (SN == 1
+      || SN == 6
+      || SN == 8
+    ) {
+      mode = rnd2();
+    } else {
+      mode = (mode + 1) & 0x7;
+    }
     disp.clear();
   }
-  delay(180);
+  __builtin_avr_delay_cycles(864000);
 }
 
 void blinkBitmap(const uint8_t* bmap) {
@@ -109,7 +151,18 @@ void snow() {
 }
 
 byte rnd() {
-  static uint16_t seed;
   seed = (seed * 2053ul) + 13849;
   return (seed >> 8) & 7;
+}
+
+byte rnd2() {
+  seed2 = (seed2 * 1739ul) + 11943;
+  return (seed2 >> 8) & 7;
+}
+
+void checkLeds() {
+  for (uint8_t i = 0; i < 8; i++) {
+    disp.send(i, 0xFF);
+  }
+  __builtin_avr_delay_cycles(864000);
 }
