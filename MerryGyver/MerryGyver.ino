@@ -94,6 +94,7 @@ void loop() {
     offs = mcount = 0;
     if (SN == 1
       || SN == 6
+      || SN == 8
     ) {
       mode = rnd2();
     } else {
