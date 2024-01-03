@@ -1,5 +1,8 @@
 #include "device.h"
 #include "TinyMAX7219.h"
+
+static uint16_t seed = SN;
+
 TinyMAX7219<3, 0, 2> disp;  // CS, MOSI, SCK
 
 // с новым годом
@@ -119,7 +122,6 @@ void snow() {
 }
 
 byte rnd() {
-  static uint16_t seed;
   seed = (seed * 2053ul) + 13849;
   return (seed >> 8) & 7;
 }
