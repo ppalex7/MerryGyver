@@ -84,6 +84,8 @@ void loop() {
     modes3();
   } else if (SN == 4) {
     modes4();
+  } else if (SN == 5) {
+    modes5();
   } else {
     modes();
   }
