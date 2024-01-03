@@ -93,6 +93,7 @@ void loop() {
   if (++mcount > MAX_OFF) {
     offs = mcount = 0;
     if (SN == 1
+      || SN == 6
     ) {
       mode = rnd2();
     } else {
