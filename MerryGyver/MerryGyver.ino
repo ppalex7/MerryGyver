@@ -3,6 +3,10 @@
 
 static uint16_t seed = SN;
 static uint16_t seed2 = SN + 2023;
+static const uint8_t MAX_OFF = SN <= 2
+  ? 80
+  : 131
+;
 
 TinyMAX7219<3, 0, 2> disp;  // CS, MOSI, SCK
 
@@ -76,11 +80,13 @@ void loop() {
 #endif
   if (SN == 2) {
     modes2();
+  } else if (SN == 3) {
+    modes3();
   } else {
     modes();
   }
   offs++;
-  if (++mcount > 80) {
+  if (++mcount > MAX_OFF) {
     offs = mcount = 0;
     if (SN == 1
     ) {
