@@ -44,7 +44,12 @@ byte mcount = 0;
 
 void setup() {
   disp.begin();
+#ifndef debug
   disp.setBright(6);
+  disp.send(0, SN);
+  delay(600);
+  disp.clear();
+#endif
 }
 
 void loop() {
