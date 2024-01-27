@@ -163,7 +163,7 @@ void checkLeds() {
   for (uint8_t i = 0; i < 8; i++) {
     disp.send(i, 0xFF);
   }
-  __builtin_avr_delay_cycles(864000);
+  __builtin_avr_delay_cycles(1440000);
   for (uint8_t i = 0; i < 8; i++) {
     for (uint8_t j = 0; j < 8; j++) {
       byte x = 1 << i;
