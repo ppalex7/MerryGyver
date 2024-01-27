@@ -52,12 +52,11 @@ byte mcount = 0;
 
 void setup() {
   disp.begin();
-#ifndef debug
   disp.setBright(6);
   disp.send(0, SN);
   __builtin_avr_delay_cycles(2880000);
   disp.clear();
-#else
+#ifdef debug
   disp.setBright(2);
 #endif
 }
