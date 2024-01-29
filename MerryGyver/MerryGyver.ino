@@ -88,7 +88,6 @@ void loop() {
   } else {
     modes();
   }
-  offs++;
   if (++mcount > MAX_OFF) {
     offs = mcount = 0;
     if (SN == 1
@@ -126,6 +125,7 @@ void drawBitmap(const uint8_t* bmap) {
 }
 
 void scrollBitmap(const uint8_t* bmap, byte w, byte h, byte p) {
+  offs++;
   if (offs > (w << 3)) offs = 0;
   for (byte i = 0; i < h; i++) {
     byte num = (offs >> 3) + w * i;
