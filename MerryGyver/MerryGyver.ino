@@ -5,7 +5,14 @@ static uint16_t seed = SN;
 static uint16_t seed2 = SN + 2023;
 static const uint8_t MAX_OFF = SN <= 2
   ? 80
-  : 131
+  : SN == 12
+    ? 146
+    : 131
+;
+
+static const uint32_t DELAY = SN == 12
+  ? 768000
+  : 864000
 ;
 
 TinyMAX7219<3, 0, 2> disp;  // CS, MOSI, SCK
@@ -85,6 +92,8 @@ void loop() {
     modes4();
   } else if (SN == 5) {
     modes5();
+  } else if (SN == 12) {
+    modes12();
   } else {
     modes();
   }
@@ -100,7 +109,7 @@ void loop() {
     }
     disp.clear();
   }
-  __builtin_avr_delay_cycles(864000);
+  __builtin_avr_delay_cycles(DELAY);
 }
 
 void blinkBitmap(const uint8_t* bmap) {
@@ -169,11 +178,11 @@ void checkLeds() {
       byte x = 1 << i;
       disp.send(j, x);
     }
-    __builtin_avr_delay_cycles(864000);
+    __builtin_avr_delay_cycles(DELAY);
   }
   for (uint8_t i = 0; i < 8; i++) {
       disp.clear();
       disp.send(i, 0xFF);
-    __builtin_avr_delay_cycles(864000);
+    __builtin_avr_delay_cycles(DELAY);
   }
 }
