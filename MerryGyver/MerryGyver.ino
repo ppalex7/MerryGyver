@@ -92,6 +92,8 @@ void loop() {
     modes4();
   } else if (SN == 5) {
     modes5();
+  } else if (isSeven()) {
+    modes7();
   } else if (SN == 12) {
     modes12();
   } else {
@@ -104,6 +106,8 @@ void loop() {
       || SN == 8
     ) {
       mode = rnd2();
+    } else if (isSeven()) {
+      mode = (mode + 1) & 0xF;
     } else {
       mode = (mode + 1) & 0x7;
     }
